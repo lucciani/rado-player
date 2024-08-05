@@ -1,23 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import RTMPPlayer from "./components/RTMPPlayer";
+import "./App.css";
+
+const streams = [
+  { id: 1, url: "rtmp://your-rtmp-server/stream1" },
+  { id: 2, url: "rtmp://your-rtmp-server/stream2" },
+  { id: 3, url: "rtmp://your-rtmp-server/stream3" },
+  // Adicione mais streams conforme necessário
+];
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>RTMP Radio Players</h1>
+      <div className="player-grid">
+        {streams.map((stream) => (
+          <RTMPPlayer key={stream.id} url={stream.url} />
+        ))}
+      </div>
     </div>
   );
 }
