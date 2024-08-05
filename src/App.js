@@ -33,18 +33,24 @@ const streams = [
   },
   {
     id: 3,
+    url: "https://ice.fabricahost.com.br/cbncariri",
+    title: "Rádio CBN Cariri",
+    image:
+      "https://www.opovo.com.br/reboot/includes/assets/img/menu/icon-cbn.webp",
+  },
+  {
+    id: 4,
     url: "https://playerservices.streamtheworld.com/api/livestream-redirect/NOVABRASIL_FORAAC.aac",
     title: "Rádio Nova Brasil",
     image:
       "https://www.opovo.com.br/reboot/includes/assets/img/menu/icon-nova-br.webp",
   },
-  // Adicione mais streams conforme necessário
 ];
 
 const App = () => {
   return (
     <Container>
-      <Header>Radio Players</Header>
+      <Header>PAINEL MONITORAÇÃO DOS STREAMING O POVO</Header>
       {streams.map((stream) => (
         <RTMPPlayer
           key={stream.id}

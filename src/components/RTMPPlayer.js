@@ -30,59 +30,44 @@ const Image = styled.img`
   border-radius: 8px;
 `;
 
-const VUContainer = styled.div`
+const Status = styled.div`
   margin-top: 10px;
-  width: 100%;
-  height: 50px;
+  font-size: 1em;
+  font-weight: bold;
+  color: ${(props) => (props.isPlaying ? "green" : "red")};
 `;
 
 const RTMPPlayer = ({ url, title, image }) => {
   const playerRef = useRef(null);
-  const waveSurferRef = useRef(null);
-  const [waveSurfer, setWaveSurfer] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [hasAudio, setHasAudio] = useState(false);
 
   useEffect(() => {
-    if (!waveSurfer) {
-      const waveSurferInstance = WaveSurfer.create({
-        container: waveSurferRef.current,
-        waveColor: "#ff0000",
-        progressColor: "#ffffff",
-        cursorColor: "transparent",
-        barWidth: 2,
-        barRadius: 2,
-        responsive: true,
-        height: 50,
-      });
-
-      setWaveSurfer(waveSurferInstance);
-    }
-
     const handlePlay = () => {
+      setIsPlaying(true);
       const audioElement = playerRef.current.getInternalPlayer();
       if (audioElement instanceof HTMLMediaElement) {
-        waveSurfer.load(audioElement);
+        setHasAudio(audioElement.muted === false && audioElement.duration > 0);
       }
     };
 
-    if (playerRef.current) {
-      const audioElement = playerRef.current.getInternalPlayer();
-      if (audioElement) {
-        audioElement.addEventListener("play", handlePlay);
-      }
+    const handlePause = () => {
+      setIsPlaying(false);
+    };
+
+    const audioElement = playerRef.current?.getInternalPlayer();
+    if (audioElement) {
+      audioElement.addEventListener("play", handlePlay);
+      audioElement.addEventListener("pause", handlePause);
     }
 
     return () => {
-      if (playerRef.current) {
-        const audioElement = playerRef.current.getInternalPlayer();
-        if (audioElement) {
-          audioElement.removeEventListener("play", handlePlay);
-        }
-      }
-      if (waveSurfer) {
-        waveSurfer.destroy();
+      if (audioElement) {
+        audioElement.removeEventListener("play", handlePlay);
+        audioElement.removeEventListener("pause", handlePause);
       }
     };
-  }, [waveSurfer]);
+  }, []);
 
   return (
     <PlayerWrapper>
@@ -91,7 +76,7 @@ const RTMPPlayer = ({ url, title, image }) => {
       <ReactPlayer
         ref={playerRef}
         url={url}
-        playing
+        playing={true}
         controls
         width="100%"
         height="50px"
@@ -103,7 +88,9 @@ const RTMPPlayer = ({ url, title, image }) => {
           },
         }}
       />
-      <VUContainer ref={waveSurferRef} />
+      {/* <Status isPlaying={isPlaying}>
+        {hasAudio ? (isPlaying ? "ON" : "OFF") : "SEM ÁUDIO"}
+      </Status> */}
     </PlayerWrapper>
   );
 };
