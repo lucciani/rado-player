@@ -1,7 +1,7 @@
-﻿import React, { useState, useEffect, useRef } from 'react'
-import ReactPlayer from 'react-player'
-import WaveSurfer from 'wavesurfer.js'
-import styled from 'styled-components'
+﻿import React, { useState, useEffect, useRef } from "react";
+import ReactPlayer from "react-player";
+import WaveSurfer from "wavesurfer.js";
+import styled from "styled-components";
 
 const PlayerWrapper = styled.div`
   display: flex;
@@ -17,58 +17,72 @@ const PlayerWrapper = styled.div`
   @media (max-width: 768px) {
     max-width: 100%;
   }
-`
+`;
 
 const Title = styled.h2`
   font-size: 1.5em;
   margin: 0.5em 0;
-`
+`;
 
 const Image = styled.img`
   width: 100%;
   height: auto;
   border-radius: 8px;
-`
+`;
 
 const VUContainer = styled.div`
   margin-top: 10px;
   width: 100%;
-`
+  height: 50px;
+`;
 
 const RTMPPlayer = ({ url, title, image }) => {
-  const playerRef = useRef(null)
-  const waveSurferRef = useRef(null)
-  const [waveSurfer, setWaveSurfer] = useState(null)
+  const playerRef = useRef(null);
+  const waveSurferRef = useRef(null);
+  const [waveSurfer, setWaveSurfer] = useState(null);
 
   useEffect(() => {
-    if (playerRef.current && !waveSurfer) {
+    if (!waveSurfer) {
       const waveSurferInstance = WaveSurfer.create({
         container: waveSurferRef.current,
-        waveColor: '#ff0000',
-        progressColor: '#ffffff',
-        cursorColor: 'transparent',
+        waveColor: "#ff0000",
+        progressColor: "#ffffff",
+        cursorColor: "transparent",
         barWidth: 2,
         barRadius: 2,
         responsive: true,
-      })
+        height: 50,
+      });
 
-      setWaveSurfer(waveSurferInstance)
+      setWaveSurfer(waveSurferInstance);
+    }
 
-      const handlePlay = () => {
-        const audioElement = playerRef.current.getInternalPlayer()
-        waveSurferInstance.load(audioElement)
+    const handlePlay = () => {
+      const audioElement = playerRef.current.getInternalPlayer();
+      if (audioElement instanceof HTMLMediaElement) {
+        waveSurfer.load(audioElement);
       }
+    };
 
-      playerRef.current.getInternalPlayer().addEventListener('play', handlePlay)
-
-      return () => {
-        if (playerRef.current) {
-          playerRef.current.getInternalPlayer().removeEventListener('play', handlePlay)
-        }
-        waveSurferInstance.destroy()
+    if (playerRef.current) {
+      const audioElement = playerRef.current.getInternalPlayer();
+      if (audioElement) {
+        audioElement.addEventListener("play", handlePlay);
       }
     }
-  }, [playerRef, waveSurfer])
+
+    return () => {
+      if (playerRef.current) {
+        const audioElement = playerRef.current.getInternalPlayer();
+        if (audioElement) {
+          audioElement.removeEventListener("play", handlePlay);
+        }
+      }
+      if (waveSurfer) {
+        waveSurfer.destroy();
+      }
+    };
+  }, [waveSurfer]);
 
   return (
     <PlayerWrapper>
@@ -84,14 +98,14 @@ const RTMPPlayer = ({ url, title, image }) => {
         config={{
           file: {
             attributes: {
-              controlsList: 'nodownload',
+              controlsList: "nodownload",
             },
           },
         }}
       />
       <VUContainer ref={waveSurferRef} />
     </PlayerWrapper>
-  )
-}
+  );
+};
 
-export default RTMPPlayer
+export default RTMPPlayer;
