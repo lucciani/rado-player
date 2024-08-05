@@ -1,45 +1,57 @@
 import React from "react";
 import RTMPPlayer from "./components/RTMPPlayer";
-import "./App.css";
+import styled from 'styled-components'
+
+const Container = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 20px;
+  background-color: #f8f9fa;
+`
+
+const Header = styled.h1`
+  width: 100%;
+  text-align: center;
+  margin-bottom: 20px;
+`
 
 const streams = [
   {
     id: 1,
     url: "https://ice.fabricahost.com.br/cbnfortaleza",
     title: "Rádio O POVO CBN",
-    image: "https://cbn.opovo.com.br/wp-content/themes/cbn-fortaleza-tema/assets/imgs/logo-opovo-preto-vermelho-cn.svg",
+    image: "https://www.opovo.com.br/reboot/includes/assets/img/menu/icon-cbn.webp",
   },
   {
     id: 2,
-    url: "rtmp://your-rtmp-server/stream2",
-    title: "Rádio 2",
-    image: "https://example.com/radio2.jpg",
+    url: "https://ice.fabricahost.com.br/cbnfortalezaam1010",
+    title: "Rádio O POVO 1010",
+    image: "https://www.opovo.com.br/reboot/includes/assets/img/menu/icon-cbn.webp",
   },
   {
     id: 3,
-    url: "rtmp://your-rtmp-server/stream3",
-    title: "Rádio 3",
-    image: "https://example.com/radio3.jpg",
+    url: "https://playerservices.streamtheworld.com/api/livestream-redirect/NOVABRASIL_FORAAC.aac",
+    title: "Rádio Nova Brasil",
+    image: "https://www.opovo.com.br/reboot/includes/assets/img/menu/icon-nova-br.webp",
   },
   // Adicione mais streams conforme necessário
 ];
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <h1>RTMP Radio Players</h1>
-      <div className="player-grid">
-        {streams.map((stream) => (
-          <RTMPPlayer
-            key={stream.id}
-            url={stream.url}
-            title={stream.title}
-            image={stream.image}
-          />
-        ))}
-      </div>
-    </div>
-  );
+    <Container>
+      <Header>RTMP Radio Players</Header>
+      {streams.map(stream => (
+        <RTMPPlayer
+          key={stream.id}
+          url={stream.url}
+          title={stream.title}
+          image={stream.image}
+        />
+      ))}
+    </Container>
+  )
 }
 
-export default App;
+export default App
