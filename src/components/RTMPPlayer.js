@@ -1,6 +1,5 @@
 ﻿import React, { useState, useEffect, useRef } from "react";
 import ReactPlayer from "react-player";
-import WaveSurfer from "wavesurfer.js";
 import styled from "styled-components";
 
 const PlayerWrapper = styled.div`
@@ -32,14 +31,14 @@ const Image = styled.img`
 
 const Status = styled.div`
   margin-top: 10px;
-  font-size: 1em;
+  font-size: 5em;
   font-weight: bold;
-  color: ${(props) => (props.isPlaying ? "green" : "red")};
+  color: ${(props) => (props.isPlaying === "true" ? "green" : "red")};
 `;
 
 const RTMPPlayer = ({ url, title, image }) => {
   const playerRef = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false); // Default to true to auto-play on load
   const [hasAudio, setHasAudio] = useState(false);
 
   useEffect(() => {
@@ -55,16 +54,25 @@ const RTMPPlayer = ({ url, title, image }) => {
       setIsPlaying(false);
     };
 
+    const handleError = () => {
+      setIsPlaying(false);
+      setTimeout(() => {
+        setIsPlaying(true);
+      }, 1000);
+    };
+
     const audioElement = playerRef.current?.getInternalPlayer();
     if (audioElement) {
       audioElement.addEventListener("play", handlePlay);
       audioElement.addEventListener("pause", handlePause);
+      audioElement.addEventListener("error", handleError);
     }
 
     return () => {
       if (audioElement) {
         audioElement.removeEventListener("play", handlePlay);
         audioElement.removeEventListener("pause", handlePause);
+        audioElement.removeEventListener("error", handleError);
       }
     };
   }, []);
@@ -76,10 +84,14 @@ const RTMPPlayer = ({ url, title, image }) => {
       <ReactPlayer
         ref={playerRef}
         url={url}
-        playing={true}
+        playing={isPlaying}
+        loop={true}
         controls
         width="100%"
         height="50px"
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+        onReady={() => setHasAudio(true)}
         config={{
           file: {
             attributes: {
@@ -88,9 +100,9 @@ const RTMPPlayer = ({ url, title, image }) => {
           },
         }}
       />
-      {/* <Status isPlaying={isPlaying}>
-        {hasAudio ? (isPlaying ? "ON" : "OFF") : "SEM ÁUDIO"}
-      </Status> */}
+      <Status isPlaying={isPlaying.toString()}>
+        {hasAudio ? (isPlaying ? "ON" : "OFF") : "OFF"}
+      </Status>
     </PlayerWrapper>
   );
 };
