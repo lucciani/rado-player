@@ -1,22 +1,4 @@
-import React from "react";
-import RTMPPlayer from "./components/RTMPPlayer";
-import styled from "styled-components";
-
-const Container = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 20px;
-  background-color: #f8f9fa;
-`;
-
-const Header = styled.h1`
-  width: 100%;
-  text-align: center;
-  margin-bottom: 20px;
-`;
-
-const streams = [
+﻿export const streams = [
   {
     id: 1,
     url: "https://ice.fabricahost.com.br/cbnfortaleza",
@@ -45,22 +27,11 @@ const streams = [
     image:
       "https://www.opovo.com.br/reboot/includes/assets/img/menu/icon-nova-br.webp",
   },
+  {
+    id: 5,
+    url: "https://cdn.mycloudstream.io/hls/live/broadcast/pxf9amx8/index.m3u8",
+    title: "Canal FDR",
+    image:
+      "https://fdr.org.br/canalfdr/wp-content/themes/canalfdr/img/logo-tv-opovo.png",
+  },
 ];
-
-const App = () => {
-  return (
-    <Container>
-      <Header>PAINEL MONITORAÇÃO DOS STREAMING O POVO</Header>
-      {streams.map((stream) => (
-        <RTMPPlayer
-          key={stream.id}
-          url={stream.url}
-          title={stream.title}
-          image={stream.image}
-        />
-      ))}
-    </Container>
-  );
-};
-
-export default App;
