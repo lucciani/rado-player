@@ -30,7 +30,7 @@
   {
     id: 5,
     url: "https://cdn.mycloudstream.io/hls/live/broadcast/pxf9amx8/index.m3u8",
-    title: "Canal FDR",
+    title: "",
     image:
       "https://fdr.org.br/canalfdr/wp-content/themes/canalfdr/img/logo-tv-opovo.png",
   },
