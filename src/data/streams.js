@@ -8,10 +8,10 @@
   },
   {
     id: 2,
-    url: "https://ice.fabricahost.com.br/cbnfortalezaam1010",
-    title: "Rádio O POVO 1010",
+    url: "https://ice.fabricahost.com.br/clubefmfortaleza",
+    title: "Rádio Club fm",
     image:
-      "https://www.opovo.com.br/reboot/includes/assets/img/menu/icon-cbn.webp",
+      "https://tudoradio.com/img/uploads/noticias/664762a4e9075.png",
   },
   {
     id: 3,
