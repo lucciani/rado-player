@@ -34,4 +34,11 @@
     image:
       "https://fdr.org.br/canalfdr/wp-content/themes/canalfdr/img/logo-tv-opovo.png",
   },
+  {
+    id: 6,
+    url: "https://cdn.mycloudstream.io/hls/live/broadcast/aovhqllh/index.m3u8",
+    title: "TV O POVO 48.2",
+    image:
+      "/logotvopovo.jpg",
+  },
 ];

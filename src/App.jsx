@@ -18,6 +18,7 @@ const Header = styled.h1`
 `;
 
 const App = () => {
+  const videoIds = [5, 6];
   return (
     <Container>
       <Header>PAINEL MONITORAÇÃO DOS STREAMING O POVO</Header>
@@ -27,7 +28,7 @@ const App = () => {
           url={stream.url}
           title={stream.title}
           image={stream.image}
-          isVideo={stream.id === 5}
+          isVideo={videoIds.includes(stream.id)}
         />
       ))}
     </Container>
